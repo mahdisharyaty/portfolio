@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="fa">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>مهدی شریعتی | طراح گرافیک</title>
+
+    <!-- Preconnect to Google Fonts for faster loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Load Vazirmatn font for Persian text -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700&display=swap&subset=arabic"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* Global body styling */
+      body {
+        margin: 0;
+        background: #0d0d0d; /* Dark background */
+        font-family: "Vazirmatn", sans-serif;
+        scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+      }
+
+      /* === NEW: Class to prevent scrolling when modal is open === */
+      .modal-open {
+        overflow: hidden; /* prevents body scroll */
+        height: 100vh; /* ensures full viewport height is used */
+      }
+
+      /* === فارسی‌سازی و جهت‌دهی === */
+      .fa-text {
+        direction: rtl;
+      }
+
+      .fa-title {
+        direction: rtl;
+        font-weight: 700;
+      }
+
+      /* === HEADER (Fixed) === */
+      .header-container {
+        width: 100%;
+        height: 80px;
+        background: #111827;
+        border-bottom: 1px solid #1f2937;
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 15px;
+        box-sizing: border-box; /* Include padding in the width/height */
+        z-index: 999; /* Keep header above everything */
+      }
+
+      .menu-icon {
+        width: 26px;
+        cursor: pointer;
+        padding-left: 15px;
+        filter: brightness(1.8);
+      }
+
+      /* Identity area: avatar + name + job */
+      .identity {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      /* Avatar image (Logo) */
+      .avatar {
+        width: 55px;
+        height: 55px;
+        border-radius: 50%; /* Make it circular */
+        object-fit: cover;
+        border: 3px solid #00d1ff; /* Neon border */
+        box-shadow: 0 0 10px #00d1ff; /* Glow effect */
+        /* Placeholder styling if image fails to load */
+        background: #00d1ff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #0d0d0d;
+        font-size: 20px;
+        font-weight: 700;
+      }
+
+      /* Text styling for name and job (ENGLISH - LTR) */
+      .identity-text {
+        direction: ltr;
+        text-align: left;
+      }
+
+      .identity-text .name {
+        color: #ffffff;
+        font-size: 20px;
+        font-weight: 700;
+        margin: 0;
+      }
+
+      .identity-text .job {
+        color: #66e0ff;
+        font-size: 16px;
+        font-weight: 500;
+        margin: 2px 0 0 0;
+      }
+
+      /* === SIDE MENU === */
+      #sideMenu {
+        position: fixed;
+        right: -200px; /* Hidden off-screen initially */
+        top: 80px;
+        width: 180px;
+        background: #1a1f2b;
+        height: calc(100vh - 80px); /* Fill remaining viewport height */
+        padding: 15px;
+        transition: 0.3s; /* Smooth slide animation */
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        z-index: 998;
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+      }
+
+      .menu-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 5px;
+        color: #e5e5e5;
+        text-decoration: none;
+        font-size: 15px;
+        transition: 0.2s;
+        border-radius: 6px;
+      }
+
+      .menu-item:hover {
+        background: #252b3a;
+      }
+
+      /* Style for the currently active link */
+      .active-menu-item {
+        background: #00d1ff20;
+        border-right: 3px solid #00d1ff;
+        padding-right: 2px;
+      }
+
+      /* Menu icons */
+      .menu-icon-img {
+        width: 18px;
+        height: 18px;
+        filter: invert(70%) sepia(80%) saturate(2000%) hue-rotate(160deg)
+          brightness(1.2) contrast(1.1); /* Neon blue filter */
+      }
+
+      /* Divider line */
+      .divider {
+        width: 100%;
+        height: 1px;
+        background: #2d3344;
+        margin: 4px 0;
+      }
+
+      /* === MAIN CONTENT SECTIONS === */
+      .section-wrapper {
+        min-height: 100vh;
+        padding-top: 80px; /* Offset for fixed header */
+        padding-bottom: 50px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .content {
+        max-width: 1000px;
+        margin: auto;
+        color: #e5e5e5;
+        padding: 0 25px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      h1.fa-title {
+        font-size: 50px;
+        margin-top: 30px;
+        margin-bottom: 20px;
+      }
+
+      .content p {
+        font-size: 20px;
+        line-height: 1.8;
+      }
+
+      /* HOME Section Specific */
+      #home {
+        justify-content: center;
+      }
+
+      /* HOME Persian Title/Heading */
+      .home-heading-fa {
+        font-size: 60px;
+        margin-top: 30px;
+        margin-bottom: 20px;
+        color: #00d1ff;
+        direction: rtl; /* Ensure RTL direction for Persian text */
+      }
+
+      /* ABOUT Section Specific */
+      #about .content p {
+        text-align: right;
+      }
+
+      /* PORTFOLIO Grid Styles - Default 3-column layout (Desktop) */
+      .portfolio-grid {
+        margin-top: 40px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        width: 100%;
+      }
+
+      .portfolio-item {
+        background: #1a1f2b;
+        padding: 15px;
+        border-radius: 12px;
+        text-align: right;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+        cursor: pointer;
+      }
+
+      .portfolio-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 209, 255, 0.15);
+      }
+
+      /* Portfolio Image Container */
+      .portfolio-img-container {
+        height: 180px; /* Consistent height on desktop */
+        background: #2d3344;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .portfolio-img-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+      }
+      .portfolio-item:hover .portfolio-img-container img {
+        transform: scale(1.05);
+      }
+
+      .portfolio-item h3 {
+        color: #00d1ff;
+        margin: 0;
+        font-size: 18px;
+      }
+
+      .portfolio-item p {
+        color: #a0a0a0;
+        font-size: 14px;
+        margin: 5px 0 0 0;
+        line-height: 1.5;
+      }
+
+      /* CONTACT Section Styles */
+      .btn {
+        width: 90%;
+        max-width: 400px;
+        padding: 15px;
+        margin: 10px 0;
+        text-align: center;
+        font-size: 18px;
+        font-weight: 600;
+        border-radius: 12px;
+        text-decoration: none;
+        transition: 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .btn-icon {
+        width: 24px;
+        height: 24px;
+        filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.5));
+      }
+
+      .instagram {
+        background: #e1306c;
+        color: white;
+      }
+      .instagram:hover {
+        background: #ff4f8a;
+      }
+
+      .telegram {
+        background: #0088cc;
+        color: white;
+      }
+      .telegram:hover {
+        background: #33a6e7;
+      }
+
+      .whatsapp {
+        background: #25d366;
+        color: white;
+      }
+      .whatsapp:hover {
+        background: #4cea7d;
+      }
+
+      .call {
+        background: #ffd369;
+        color: #0d0d0d;
+      }
+      .call:hover {
+        background: #ffe291;
+      }
+
+      /* === MODAL / LIGHTBOX STYLES === */
+      #portfolioModal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(
+          0,
+          0,
+          0,
+          0.95
+        ); /* Darker backdrop for better focus */
+        z-index: 1000;
+        display: none; /* Hidden by default */
+        justify-content: center;
+        align-items: center;
+        backdrop-filter: blur(5px);
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      .modal-content {
+        background: #1a1f2b;
+        padding: 30px;
+        border-radius: 15px;
+        max-width: 800px; /* Max width for large view */
+        /* REMOVED: max-height: 90vh; and overflow-y: auto; to ensure the modal content is fixed and not scrollable internally */
+        color: #e5e5e5;
+        position: relative;
+        text-align: right;
+        direction: rtl;
+        box-shadow: 0 0 40px rgba(0, 209, 255, 0.6);
+        transform: scale(0.95);
+        opacity: 0;
+        transition: all 0.3s ease-in-out;
+        margin: 20px; /* Added margin for safety on all sides */
+        box-sizing: border-box;
+      }
+
+      .modal-content.is-active {
+        transform: scale(1);
+        opacity: 1;
+      }
+
+      .close-btn {
+        position: absolute;
+        top: 15px;
+        left: 25px;
+        color: #00d1ff;
+        font-size: 30px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: color 0.2s;
+        line-height: 1;
+      }
+
+      .close-btn:hover {
+        color: #ff4d4d;
+      }
+
+      .modal-image {
+        width: 100%;
+        max-height: 450px;
+        object-fit: contain;
+        border-radius: 8px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        display: block;
+        border: 1px solid #00d1ff50;
+      }
+
+      .modal-placeholder {
+        height: 250px;
+        background: #2d3344;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #aaa;
+        font-size: 16px;
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        padding: 10px;
+      }
+
+      .modal-content h2 {
+        font-size: 28px;
+        margin-bottom: 5px;
+      }
+
+      /* === Responsive Adjustments (MOBILE/TABLET) === */
+
+      /* TABLET (Screens up to 768px wide) */
+      @media (max-width: 768px) {
+        /* General Font Scaling */
+        h1.fa-title {
+          font-size: 40px;
+        }
+        .home-heading-fa {
+          font-size: 50px !important;
+        }
+        .content p {
+          font-size: 18px;
+        }
+
+        /* Portfolio Grid: Change to 2 columns */
+        .portfolio-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .portfolio-img-container {
+          height: 150px; /* Slightly smaller image height on tablet */
+        }
+
+        /* Header Scaling */
+        .identity-text .name {
+          font-size: 18px;
+        }
+        .identity-text .job {
+          font-size: 14px;
+        }
+        .avatar {
+          width: 50px;
+          height: 50px;
+          font-size: 18px;
+        }
+      }
+
+      /* MOBILE (Screens up to 500px wide) */
+      @media (max-width: 500px) {
+        /* General Font Scaling for small screens */
+        h1.fa-title {
+          font-size: 36px;
+        }
+        .home-heading-fa {
+          font-size: 36px !important;
+        }
+        .content p {
+          font-size: 16px;
+        }
+
+        /* Portfolio Grid: Change to 1 column for maximum readability */
+        .portfolio-grid {
+          grid-template-columns: 1fr;
+          gap: 15px; /* Reduce gap on mobile */
+        }
+        .portfolio-item {
+          padding: 12px;
+        }
+        .portfolio-img-container {
+          height: 200px; /* Keep a decent image height in single column view */
+        }
+
+        /* Header Scaling for smallest screens */
+        .identity-text .name {
+          font-size: 14px;
+        }
+        .identity-text .job {
+          font-size: 10px;
+        }
+        .avatar {
+          width: 40px;
+          height: 40px;
+          font-size: 16px;
+        }
+        .header-container {
+          height: 70px;
+        }
+        #sideMenu {
+          top: 70px;
+          height: calc(100vh - 70px);
+        }
+        .section-wrapper {
+          padding-top: 70px;
+        }
+
+        /* Contact buttons full width on mobile */
+        .btn {
+          width: 100%;
+          max-width: none;
+        }
+      }
+
+      /* Modal Specific Mobile Adjustments */
+      @media (max-width: 600px) {
+        .modal-content {
+          max-width: 100%;
+          padding: 15px;
+          margin: 10px;
+        }
+        /* The image max-height is now critical to ensure the content fits */
+        .modal-image {
+          max-height: 200px; /* Reduced max height to ensure all text fits on smaller screens */
+        }
+        .modal-content h2 {
+          font-size: 24px;
+        }
+        .close-btn {
+          left: 15px;
+          top: 10px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Header section -->
+    <div class="header-container">
+      <!-- Identity (avatar + name + job) -->
+      <div class="identity">
+        <!-- LOGO IMAGE (You need to place logo.png in the root directory) --><img
+          src="logo.png"
+          class="avatar"
+          alt="Mahdi Shariati Logo"
+          onerror="this.src='https://placehold.co/55x55/00d1ff/0d0d0d?text=MS'"
+        />
+        <div class="identity-text">
+          <!-- ONLY NAME IN ENGLISH IN HEADER -->
+          <div class="name">Mehdi Shariati</div>
+          <!-- ONLY JOB IN ENGLISH IN HEADER -->
+          <div class="job">Graphic Designer | Freelancer</div>
+        </div>
+      </div>
+
+      <!-- Menu icon (opens side menu) -->
+      <div class="header-menu">
+        <img
+          id="menuToggle"
+          src="icons/menu.png"
+          class="menu-icon"
+          alt="Menu"
+          onerror="this.src='https://placehold.co/26x26/1f2937/ffffff?text=☰'"
+        />
+      </div>
+    </div>
+
+    <!-- Slide-out side menu (fixed) -->
+    <div id="sideMenu">
+      <!-- Navigation links (now pointing to sections/IDs) -->
+      <nav
+        class="menu-list fa-text"
+        style="display: flex; flex-direction: column; gap: 0"
+      >
+        <a class="menu-item active-menu-item" href="#home" data-target="home">
+          <!-- MENU ICON: HOME --><img
+            src="icons/home.png"
+            class="menu-icon-img"
+            alt="خانه"
+          />
+          خانه
+        </a>
+        <div class="divider"></div>
+
+        <a class="menu-item" href="#about" data-target="about">
+          <!-- MENU ICON: USER --><img
+            src="icons/user.png"
+            class="menu-icon-img"
+            alt="درباره من"
+          />
+          درباره من
+        </a>
+        <div class="divider"></div>
+
+        <a class="menu-item" href="#portfolio" data-target="portfolio">
+          <!-- MENU ICON: WORK --><img
+            src="icons/work.png"
+            class="menu-icon-img"
+            alt="نمونه کارها"
+          />
+          نمونه کارها
+        </a>
+        <div class="divider"></div>
+
+        <a class="menu-item" href="#contact" data-target="contact">
+          <!-- MENU ICON: MAIL --><img
+            src="icons/mail.png"
+            class="menu-icon-img"
+            alt="تماس"
+          />
+          تماس
+        </a>
+      </nav>
+    </div>
+
+    <!-- ####################################################### --><!-- ################ S E C T I O N S ###################### --><!-- ####################################################### --><!-- 1. HOME Section -->
+    <section id="home" class="section-wrapper fa-text">
+      <div class="content">
+        <!-- HOME HEADING BACK TO PERSIAN -->
+        <h1 class="home-heading-fa">سلام! مهدی شریعتی هستم.</h1>
+
+        <p
+          style="
+            color: #d6d6d6;
+            font-size: 24px;
+            max-width: 600px;
+            margin: 0 auto 30px;
+          "
+        >
+          آماده‌ام تا با تخصص در فتوشاپ و ایلاستریتور، برند شما را به یک تصویر
+          ماندگار و تاثیرگذار تبدیل کنم.اینجا، ایده‌های شما با قدرت گرافیک جان
+          می‌گیرند.
+        </p>
+
+        <a
+          href="#portfolio"
+          style="
+            display: inline-block;
+            padding: 12px 30px;
+            background: #00d1ff;
+            color: #0d0d0d;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 18px;
+            transition: background 0.2s;
+          "
+        >
+          مشاهده نمونه کارها
+        </a>
+      </div>
+    </section>
+
+    <!-- 2. ABOUT Section -->
+    <section
+      id="about"
+      class="section-wrapper fa-text"
+      style="background: #111827"
+    >
+      <div class="content">
+        <h1 class="fa-title" style="color: #00d1ff">درباره من</h1>
+
+        <p
+          style="
+            color: #d6d6d6;
+            line-height: 1.8;
+            text-align: right;
+            padding: 0 5px;
+          "
+        >
+          من مهدی شریعتی، طراح گرافیک "فریلنسر" با بیش از یک سال تجربه هستم.
+          تخصص من خلق هویت‌های بصری است که برند شما را از رقبا متمایز می‌کند. با
+          تسلط کامل بر Photoshop و Illustrator، هر طرح را با هدف نتیجه‌بخش بودن
+          و انتقال قدرتمند پیام شما خلق می‌کنم.
+        </p>
+
+        <p
+          style="
+            color: #d6d6d6;
+            line-height: 1.8;
+            text-align: right;
+            padding: 0 5px;
+          "
+        >
+          هدف من تبدیل اهداف تجاری شما به طرح‌های دقیق، چشم‌گیر و استراتژیک است.
+          اگر به دنبال طراحی هستید که نه تنها زیبا باشد، بلکه در عمل دیده شود و
+          به رشد کسب‌وکار شما کمک کند، آماده‌ام تا ایده‌های شما را عملی کنم.
+        </p>
+      </div>
+    </section>
+
+    <!-- 3. PORTFOLIO Section -->
+    <section id="portfolio" class="section-wrapper fa-text">
+      <div class="content">
+        <h1 class="fa-title" style="color: #00d1ff">نمونه کارها</h1>
+
+        <p
+          style="
+            color: #d6d6d6;
+            line-height: 1.8;
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 30px;
+          "
+        >
+          در این بخش،تعداد کمی از نمونه طراحی گرافیک در حوزه‌های مختلف را مشاهده
+          خواهید کرد. برای دیدن جزئیات بیشتر روی هر کارت کلیک کنید.
+        </p>
+        <p
+          style="
+            color: #d6d6d647;
+            line-height: 1.8;
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 30px;
+          "
+        >
+          توجه برای کم حجم شدن پروژه، از تصاویری با کیفیت کم برای نمایش استفاده
+          شده است.
+        </p>
+
+        <!-- Portfolio Grid with 9 Items (3x3 Layout) -->
+        <div class="portfolio-grid">
+          <!-- پروژه شماره ۱: ردیف اول -->
+          <div
+            class="portfolio-item js-portfolio-item"
+            data-title="طراحی  تراکت تبلیغاتی فروشگاه لوازم خانگی"
+            data-category="تبلیغات چاپی"
+            data-description="در این نوع طراحی ها  جلب توجه مخاطب و انتقال مفهوم در کمال سادگی از مهم ترین اهداف ما است."
+            data-image="portfolio/1.webp"
+          >
+            <!-- MEDIUM IMAGE 1 (WEBP) -->
+            <div class="portfolio-img-container">
+              <img
+                src="portfolio/1.webp"
+                alt="پوستر تبلیغاتی"
+                onerror="this.onerror=null; this.src='https://placehold.co/400x250/2d3344/66e0ff?text=Project+1';"
+              />
+            </div>
+            <h3>تراکت لوازم خانگی</h3>
+            <p>طراحی تراکت و پوستر چاپی و دیجیتال</p>
+          </div>
+
+          <!-- پروژه شماره ۲ -->
+          <div
+            class="portfolio-item js-portfolio-item"
+            data-title="طراحی کارت ویزیت کارواش"
+            data-category="تبلیغات چاپی"
+            data-description="در کارت ویزیت باید علاوه بر رساندن اطلاعات به  شکیل بودن و متناسب با برند بودن رو در نظر داشت."
+            data-image="portfolio/2.webp"
+          >
+            <!-- MEDIUM IMAGE 2 (WEBP) -->
+            <div class="portfolio-img-container">
+              <img
+                src="portfolio/2.webp"
+                alt="کارت ویزیت"
+                onerror="this.onerror=null; this.src='https://placehold.co/400x250/2d3344/66e0ff?text=Project+2';"
+              />
+            </div>
+            <h3>کارت ویزیت کارواش</h3>
+            <p>طراحی کارت ویزیت</p>
+          </div>
+
+          <!-- پروژه شماره ۳ -->
+          <div
+            class="portfolio-item js-portfolio-item"
+            data-title="طراحی لوگو دکتر زیبایی"
+            data-category="برندینگ و هویت بصری"
+            data-description="لوگو باید علاوه بر سادگی برای بخاطر ماندن دارای مفاهیم پنهان باشد."
+            data-image="portfolio/3.webp"
+          >
+            <!-- MEDIUM IMAGE 3 (WEBP) -->
+            <div class="portfolio-img-container">
+              <img
+                src="portfolio/3.webp"
+                alt="لوگو"
+                onerror="this.onerror=null; this.src='https://placehold.co/400x250/2d3344/66e0ff?text=Project+3';"
+              />
+            </div>
+            <h3>لوگو</h3>
+            <p>لوگوی ساده و مرتبط با نام و هویت برند</p>
+          </div>
+
+          <!-- پروژه شماره ۴: ردیف دوم -->
+          <div
+            class="portfolio-item js-portfolio-item"
+            data-title="پست‌ اینستاگرام برای اپ ورزشی"
+            data-category="شبکه‌های اجتماعی و دیجیتال"
+            data-description="در ایجاد پست و دیگر موارد سوشال مدیا باید جامعه هدف به صورت خیلی دقیق مورد بررسی قرار بگیرد."
+            data-image="portfolio/4.webp"
+          >
+            <!-- MEDIUM IMAGE 4 (WEBP) -->
+            <div class="portfolio-img-container">
+              <img
+                src="portfolio/4.webp"
+                alt="پست اینستاگرام"
+                onerror="this.onerror=null; this.src='https://placehold.co/400x250/2d3344/66e0ff?text=Project+4';"
+              />
+            </div>
+            <h3>پست‌های تبلیغاتی اینستاگرام</h3>
+            <p>طراحی کاور و پست</p>
+          </div>
+
+          <!-- پروژه شماره ۵ -->
+          <div
+            class="portfolio-item js-portfolio-item"
+            data-title="طراحی پروفایل گرافینو"
+            data-category="برندینگ و هویت بصری"
+            data-description="طراحی پروفایل برای برندهاو اشخاص به اهمیت لوگو است چراکه تنها چیزی که شمارا ماندگار در ذهن مخاطب میکند همین است."
+            data-image="portfolio/5.webp"
+          >
+            <!-- MEDIUM IMAGE 5 (WEBP) -->
+            <div class="portfolio-img-container">
+              <img
+                src="portfolio/5.webp"
+                alt="پروفایل"
+                onerror="this.onerror=null; this.src='https://placehold.co/400x250/2d3344/66e0ff?text=Project+5';"
+              />
+            </div>
+            <h3>طراحی پروفایل</h3>
+            <p>طراحی پروفایل های ماندگار</p>
+          </div>
+
+          <!-- پروژه شماره ۶ -->
+          <div
+            class="portfolio-item js-portfolio-item"
+            data-title="لوگوی فانتزی(کافه + شهر)"
+            data-category="برندینگ و هویت بصری"
+            data-description="در برخی اوقات باید مفاهیم و المان های مد نظر را در لوگو جایگذاری کنیم این مرحله از کار بشدت حیاتی است"
+            data-image="portfolio/6.webp"
+          >
+            <!-- MEDIUM IMAGE 6 (WEBP) -->
+            <div class="portfolio-img-container">
+              <img
+                src="portfolio/6.webp"
+                alt="لوگو"
+                onerror="this.onerror=null; this.src='https://placehold.co/400x250/2d3344/66e0ff?text=Project+6';"
+              />
+            </div>
+            <h3>لوگوی فانتزی</h3>
+            <p>لوگوی با ترکیب المان برای رسیدن به مفهوم خاص</p>
+          </div>
+
+          <!--پروژه شماره ۷ -->
+          <div
+            class="portfolio-item js-portfolio-item"
+            data-title="طراحی پست اسلایدی (معرفی تنیس بچگانه)"
+            data-category="شبکه‌های اجتماعی و دیجیتال"
+            data-description="در طراحی پست های اسلایدی باید هماهنگی داشته باشید البته که باید دیگر نکات مربوط به سوشال مدیا رعایت شود."
+            data-image="portfolio/7.webp"
+          >
+            <!-- MEDIUM IMAGE 7 (WEBP) -->
+            <div class="portfolio-img-container">
+              <img
+                src="portfolio/7.webp"
+                alt="پست اسلایدی"
+                onerror="this.onerror=null; this.src='https://placehold.co/400x250/2d3344/66e0ff?text=Project+7';"
+              />
+            </div>
+            <h3>طراحی پست اسلایدی</h3>
+            <p>طراحی پست اسلایدی با هدف ارائه اطلاعات</p>
+          </div>
+
+          <!-- پروژه شماره ۸ -->
+          <div
+            class="portfolio-item js-portfolio-item"
+            data-title="طراحی با تصاویر ساخته شده با AI"
+            data-category="شبکه‌های اجتماعی و دیجیتال + AI"
+            data-description="در تصویرسازی با AI علاوه‌بر پرامپت   مناسب باید حتما آن را ادیت و به چیزی که میخواهیم تبدیل کنیم"
+            data-image="portfolio/8.webp"
+          >
+            <!-- MEDIUM IMAGE 8 (WEBP) -->
+            <div class="portfolio-img-container">
+              <img
+                src="portfolio/8.webp"
+                alt="استوری"
+                onerror="this.onerror=null; this.src='https://placehold.co/400x250/2d3344/66e0ff?text=Project+8';"
+              />
+            </div>
+            <h3>طراحی کاور و استوری</h3>
+            <p>ساخت کاور و استوری با تصاویر کاملا یونیک</p>
+          </div>
+
+          <!-- پروژه شماره ۹ -->
+          <div
+            class="portfolio-item js-portfolio-item"
+            data-title="مونتاژ و تولید تصاویر خاص"
+            data-category="شبکه‌های اجتماعی و دیجیتال + AI"
+            data-description="ما با تولید تصاویر و مونتاژ آنها به اهداف و تصاویر مدنظرمان خواهیم رسید تصاویری که برای استفاده در هرکجا مناسب است."
+            data-image="portfolio/9.webp"
+          >
+            <!-- MEDIUM IMAGE 9 (WEBP) -->
+            <div class="portfolio-img-container">
+              <img
+                src="portfolio/9.webp"
+                alt="استوری"
+                onerror="this.onerror=null; this.src='https://placehold.co/400x250/2d3344/66e0ff?text=Project+9';"
+              />
+            </div>
+            <h3>تصویرسازی</h3>
+            <p>طراحی تصاویر ویژه و خاص.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. CONTACT Section -->
+    <section
+      id="contact"
+      class="section-wrapper fa-text"
+      style="background: #111827"
+    >
+      <div class="content">
+        <h1 class="fa-title" style="color: #00d1ff">تماس و سفارش پروژه</h1>
+
+        <p
+          style="
+            color: #d6d6d6;
+            line-height: 1.8;
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 30px;
+          "
+        >
+          آیا آماده‌اید برندتان را به سطح بالاتری ببرید؟ اگر پروژه یا چالشی
+          دارید که نیاز به یک هویت بصری قدرتمند و خلاقانه دارد، همین امروز با من
+          در تماس بگیرد.
+        </p>
+
+        <div
+          class="contact-links"
+          style="
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+          "
+        >
+          <!-- INSTAGRAM BUTTON --><a
+            href="https://instagram.com/Mahdi_Sharyaty"
+            target="_blank"
+            class="btn instagram"
+          >
+            <img src="icons/instagram.png" class="btn-icon" alt="Instagram" />
+            اینستاگرام (instagram)
+          </a>
+          <!-- TELEGRAM BUTTON --><a
+            href="https://t.me/Mahdi_Sharyaty"
+            target="_blank"
+            class="btn telegram"
+          >
+            <img src="icons/telegram.png" class="btn-icon" alt="Telegram" />
+            تلگرام (telegram)
+          </a>
+          <!-- WHATSAPP BUTTON --><a
+            href="https://wa.me/989152277438"
+            target="_blank"
+            class="btn whatsapp"
+          >
+            <img src="icons/whatsapp.png" class="btn-icon" alt="WhatsApp" />
+            واتساپ (WhatsApp)
+          </a>
+          <!-- PHONE CALL BUTTON --><a
+            href="tel:+989152277438"
+            class="btn call"
+          >
+            <img src="icons/call.png" class="btn-icon" alt="Call" />
+            تماس مستقیم
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer
+      class="fa-text"
+      style="
+        background: #1a1f2b;
+        color: #777;
+        text-align: center;
+        padding: 20px 0;
+        font-size: 14px;
+        border-top: 1px solid #1f2937;
+      "
+    >
+      <p style="margin: 0">طراحی و اجرا : مهدی شریعتی</p>
+      <p style="margin: 0">
+        &copy; پاییز1404| تمامی حقوق برای مهدی شریعتی محفوظ است.
+      </p>
+    </footer>
+
+    <!-- MODAL / LIGHTBOX Structure (Hidden by default) -->
+    <div id="portfolioModal">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2 id="modalTitle">عنوان پروژه</h2>
+        <p style="font-size: 14px; color: #66e0ff">
+          دسته‌بندی: <span id="modalCategory"></span>
+        </p>
+
+        <!-- Image will be loaded here -->
+        <img id="modalImage" class="modal-image" alt="نمونه کار بزرگ" />
+
+        <p id="modalDescription" style="line-height: 1.7; color: #d6d6d6">
+          توضیحات کامل درباره پروژه...
+        </p>
+      </div>
+    </div>
+
+    <!-- JavaScript for Interactivity -->
+    <script>
+      // --- Element Selectors ---
+      const sideMenu = document.getElementById("sideMenu");
+      const menuToggle = document.getElementById("menuToggle");
+      const menuItems = document.querySelectorAll(".menu-item");
+      const portfolioItems = document.querySelectorAll(".js-portfolio-item");
+      const modal = document.getElementById("portfolioModal");
+      const closeBtn = document.querySelector(".close-btn");
+      const modalTitle = document.getElementById("modalTitle");
+      const modalCategory = document.getElementById("modalCategory");
+      const modalDescription = document.getElementById("modalDescription");
+      const modalImage = document.getElementById("modalImage");
+      const modalContent = document.querySelector(".modal-content");
+
+      // --- Menu Toggle Functionality ---
+      let isMenuOpen = false;
+
+      function toggleMenu() {
+        isMenuOpen = !isMenuOpen;
+        if (isMenuOpen) {
+          sideMenu.style.right = "0"; // Slide in
+          document.body.classList.add("modal-open"); // Fix body scroll when menu is open
+        } else {
+          sideMenu.style.right = "-200px"; // Slide out
+          // NOTE: We only remove 'modal-open' if the modal is NOT open,
+          // but for simplicity, the main logic for modal-open class is in the modal open/close functions.
+          if (modal.style.display !== "flex") {
+            document.body.classList.remove("modal-open");
+          }
+        }
+      }
+
+      menuToggle.addEventListener("click", toggleMenu);
+
+      // --- Menu and Scroll Logic ---
+      function handleScroll() {
+        const sections = document.querySelectorAll("section");
+        let currentActiveSection = "home";
+
+        sections.forEach((section) => {
+          const sectionTop = section.offsetTop - 100; // Offset for fixed header
+          const sectionHeight = section.clientHeight;
+          if (
+            window.scrollY >= sectionTop &&
+            window.scrollY < sectionTop + sectionHeight
+          ) {
+            currentActiveSection = section.id;
+          }
+        });
+
+        menuItems.forEach((item) => {
+          item.classList.remove("active-menu-item");
+          if (item.getAttribute("data-target") === currentActiveSection) {
+            item.classList.add("active-menu-item");
+          }
+        });
+      }
+
+      // Add scroll listener for active menu highlighting
+      window.addEventListener("scroll", handleScroll);
+
+      // --- Menu Item Click (Smooth Scroll + Close Menu) ---
+      menuItems.forEach((item) => {
+        item.addEventListener("click", function (e) {
+          // Close menu if it's open (important for mobile UX)
+          if (isMenuOpen) {
+            // Wait for scroll to finish before removing modal-open class
+            setTimeout(() => {
+              toggleMenu();
+            }, 500); // Wait a bit longer than the scroll animation
+          }
+        });
+      });
+
+      // --- Modal Open Functionality ---
+      portfolioItems.forEach((item) => {
+        item.addEventListener("click", function () {
+          const title = this.getAttribute("data-title");
+          const category = this.getAttribute("data-category");
+          const description = this.getAttribute("data-description");
+          const imageSrc = this.getAttribute("data-image");
+
+          modalTitle.textContent = title;
+          modalCategory.textContent = category;
+          modalDescription.textContent = description;
+
+          // Set image source
+          modalImage.src = imageSrc;
+          // Set placeholder image source if the main image fails to load
+          modalImage.onerror = () => {
+            // Fallback to a placehold.co link with dimensions (1000x600 is the target aspect ratio)
+            modalImage.src = `https://placehold.co/1000x600/2d3344/66e0ff?text=${encodeURIComponent(
+              title
+            )}`;
+          };
+
+          modal.style.display = "flex";
+          // *** FIX: Apply class to prevent body scroll ***
+          document.body.classList.add("modal-open");
+
+          // Animate in the modal content
+          setTimeout(() => {
+            modalContent.classList.add("is-active");
+          }, 10);
+        });
+      });
+
+      // --- Modal Close Functionality ---
+      function closeModal() {
+        modalContent.classList.remove("is-active");
+        setTimeout(() => {
+          modal.style.display = "none";
+          // *** FIX: Remove class to restore body scroll ***
+          document.body.classList.remove("modal-open");
+        }, 300); // Match CSS transition duration
+      }
+
+      closeBtn.addEventListener("click", closeModal);
+
+      // Close modal when clicking outside of the content
+      modal.addEventListener("click", function (e) {
+        if (e.target === modal) {
+          closeModal();
+        }
+      });
+
+      // Close modal on ESC key press
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && modal.style.display === "flex") {
+          closeModal();
+        }
+      });
+
+      // Ensure the correct menu item is active on load
+      window.addEventListener("load", handleScroll);
+    </script>
+  </body>
+</html>
